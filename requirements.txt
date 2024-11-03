@@ -1,0 +1,7 @@
+streamlit
+langchain
+chromadb
+python-dotenv
+langchain-huggingface
+langchain-community
+
