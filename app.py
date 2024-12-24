@@ -1,17 +1,10 @@
 import streamlit as st
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage
-from llm import get_query_response,retrieve_data,summarize_output
-from prompt import prompt
+from executor import execute_user_query
 
-def generate_response(text_query,prompt):
-    sql_response = get_query_response(text_query,prompt)
-    print(sql_response)
-    sql_query=sql_response.split('AI:', 1)[1].strip()
-    print(sql_query)
-    data=retrieve_data(sql_query,'placements.db')
-    final_response=summarize_output(sql_query,data,text_query)
-    return final_response
+load_dotenv()
+
 
 st.set_page_config(page_title='Streaming Bot',page_icon='🤖')
 st.title("IGDTUW Placements Info Bot")
@@ -38,7 +31,7 @@ if user_query is not None and user_query != "":
         st.markdown(user_query)
 
     with st.chat_message("AI"):
-        response = generate_response(user_query, prompt)
+        response = execute_user_query(user_query=user_query)
         st.write(response)
 
     st.session_state.chat_history.append(AIMessage(content=response))

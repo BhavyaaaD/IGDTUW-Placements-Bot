@@ -2,13 +2,13 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 101012018,Aamiya Garg,Google,30.36
 201012018,Saloni,Wells Fargo,20
 301012018,Tanya Rana,Citrix,24
-401012018,Kritika Goswami,Vmware,19.72
+401012018,Kritika Goswami,VMware,19.72
 501012018,Shreya Rastogi,Walmart,23.39
 601012018,Muskan,Deloitte,7.6
 701012018,Shailza Singh,Google,30.36
-801012018,Suniti Saini,Citi,13.7
-901012018,Ankita Haldar,Morgan Stranley,27.58
-1101012018,Mehak Sangwan,ZS Associates,12.84
+801012018,Suniti Saini,Citibank,13.7
+901012018,Ankita Haldar,Morgan Stanley,27.58
+1101012018,Mehak Sangwan,ZS,12.84
 1301012018,Archita Varshney,Facebook,
 1501012018,Aakriti Gupta,Intuit,39
 1601012018,Lisa Chandra,Oracle,16.64
@@ -20,9 +20,9 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 2201012018,Kajal Dedha,Youth Icon Politician,
 2301012018,Anushka Narula,Adobe,55
 2401012018,Anju,Deloitte,7.6
-2601012018,Diksha Rajput,Publicis Sapeint,11
+2601012018,Diksha Rajput,Publicis Sapient,11
 2901012018,Vanshika Uniyal,Microsoft,46
-3001012018,Somya Mahajan,Wabtex Corporation,17.06
+3001012018,Somya Mahajan,Wabtec,17.06
 3101012018,Astika Nehra,Twilio,43.14
 3201012018,Amitasha Tembulkar,Walmart,23.39
 3301012018,Kajal Sinha,Deloitte,7.6
@@ -57,21 +57,21 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 6401012018,Anusha Mittal,Atlassian,26.57
 6501012018,Muskan Verma,Uber,35.53
 6701012018,Tushti,Microsoft,46
-6801012018,KM Anju,Vmware,19.72
+6801012018,KM Anju,VMware,19.72
 6901012018,Shivani,Higher Studies,
 7001012018,Suchi Jha,Americal Express,15.36
 7101012018,Pragya,American Express,15.36
 7201012018,Apoorva Mittal,Google,30.36
 7301012018,Swastika Tiwari,Intuit,39
-7401012018,Nancy Solanki,Micorosoft,46
+7401012018,Nancy Solanki,Microsoft,46
 6901012018,Shivani,Higher Studies,
 7701012018,Muskan,Wells Fargo,20
 7801012018,Astha Jain,Facebook,
 7901012018,Ananya Jain,Google,36
-8001012018,Deeksha Gautam,Citi,13.7
-8101012018,Joshita Verma,Citi,13.7
+8001012018,Deeksha Gautam,Citibank,13.7
+8101012018,Joshita Verma,Citibank,13.7
 8301012018,Kannu Priya,Infoedge,14.5
-8401012018,Prerna,Citi,13.7
+8401012018,Prerna,Citibank,13.7
 8501012018,Manya Kumari,Hewlett Packard Enterprise,10
 8601012018,Gini Angurala,Adobe,55
 8801012018,Kritleen Kaur,Microsoft,46
@@ -94,7 +94,7 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 10801012018,Shweta,Microsoft,46
 10901012018,Sirshasree Tripathy,Bank of New York Mellon,17.34
 11001012018,Abhigya Kumawat,Walmart,23.39
-11101012018,Komal,Citi,13.7
+11101012018,Komal,Citibank,13.7
 11201012018,Nayan Gupta,Service Now,33.59
 11301012018,Vanshika Singh,Microsoft,46
 11401012018,Anvita Bansal,GE Digital,17.31
@@ -106,11 +106,11 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 12001012018,Neha Pandey,Microsoft,46
 12101012018,Shilpi Kumari,Genpact,11.4
 12201012018,Divyasha Singh,C2FO,30
-12301012018,Aastha,Deutsch Bank,19.6
+12301012018,Aastha,Deutsche Bank,19.6
 12401012018,Aaniya Agrawala,Expedia Group,35.26
 12601012018,Kajal Mongia,GS,23
 12701012018,Apurva Sharma,Atlassian,26.57
-12801012018,Simran Aggarwal,JP Morgan Chase and Co.,14
+12801012018,Simran Aggarwal,JP Morgan Chase & Co.,14
 12901012018,Aditi Verma,Microsoft,46
 13001012018,Neetu,Lowe's,19.34
 13101012018,Monika Jha,Adobe,55
@@ -122,7 +122,7 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 14001012018,Shubhi Khanna,Western Digital,19.15
 14101012018,Bhavishya Tolani,Intuit,35.82
 14201012018,Tanjul Jain,PhonePe,30.5
-14301012018,Sushmita Yadav,TVS Motors,8
+14301012018,Sushmita Yadav,TVS,8
 14401012018,Sanchi Bisht,Google,32.65
 14501012018,Shivangi Singh,Higher Studies - University of Windsor,
 14701012018,Sakshi Singh,Oracle,16.64
@@ -143,8 +143,8 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 701032018,Priya,Lowe's,19.34
 801032018,Ekta,Deutsche Telekom,15
 901032018,Ananya Chandel,Intuit,39
-1001032018,Kriti Chauhan,CitiBank,13.7
-1101032018,Nivedita,CitiBank,13.7
+1001032018,Kriti Chauhan,Citibank,13.7
+1101032018,Nivedita,Citibank,13.7
 1301032018,Shivani Kashyap,Deutsche Bank,19.6
 1401032018,Mriga Chachra,Loadshare Networks,17
 1501032018,Tanisha Sharda,Microsoft,45.03
@@ -164,28 +164,28 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 3101032018,Pallavi Singh,Microsoft,45.03
 3201032018,Prachi Singh,BNY Mellon,17.34
 3301032018,Varsha,Tokopedia,12
-3401032018,M Soneya,CitiBank,13.7
-3601032018,Geeshika Singh,Delloite,7.6
+3401032018,M Soneya,Citibank,13.7
+3601032018,Geeshika Singh,Deloitte,7.6
 3701032018,Vaishali Gupta,Intuit,39
 3801032018,Kritika Kanojia,Optum UHG,13.72
-3901032018,Ena Chorey,PhonePE,30.5
+3901032018,Ena Chorey,PhonePe,30.5
 4001032018,Aarushi Kapoor,Western Digital,19.15
-4101032018,Vanshika Singh,CitiBank,13.7
+4101032018,Vanshika Singh,Citibank,13.7
 4201032018,Nitasha Dhingra,Google,30.36
 4501032018,Shreya Saini,Adidas,18.8
-4601032018,Nikita Prajapati,JPMorgan Chase & Co,14
+4601032018,Nikita Prajapati,JP Morgan Chase & Co,14
 4701032018,Sanya Dudeja,Walmart Labs,23.39
 4801032018,Devanshi Bindal,Microsoft,45.03
 4901032018,Vanshika,Tata Motors,7
 5001032018,Sweta Sharma,Western Digital,19.15
-5101032018,Bhavya,Expedia,35
+5101032018,Bhavya,Expedia,35.05
 5201032018,Ruchika Swain,Flipkart,32.65
 5301032018,Shambhavi CHaudhary,PayU,16.5
 5401032018,Sukriti Behal,Citibank,13.7
 5501032018,Ashima,PayU,23
 5601032018,Sangeeta Jha,Walmart,23.39
 5701032018,Ritika THakur,Cisco,14.9
-5801032018,Sataakshi Bhangelwal,Expedia,35
+5801032018,Sataakshi Bhangelwal,Expedia,35.05
 5901032018,Ankita Mittal,Rippling,62.5
 6001032018,Nimisha Goel,Wells Fargo,20
 6201032018,Mansi Aggarwal,Lowe's,19.35
@@ -211,7 +211,7 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 601012018,Subhra Sarita Sahoo,HPE,10
 701012018,Archita Arora,Microsoft,46
 801012018,Divya Pant,Synopsys,18.93
-1001012018,Pragati Kumari,Citi Bank,18
+1001012018,Pragati Kumari,Citibank,18
 1101012018,Shreya Arora,American Express,16.57
 1301012018,Hira Qureshi,Citrix,24
 1401012018,Meenakshi Kumar,Wabtec,13.04
@@ -219,26 +219,26 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 1601012018,Rishita Anand Sachdeva,Walmart,22.62
 1701012018,Vaibhavi Pathak,Oracle,16.64
 1801012018,Sneha,PWC,7
-1901012018,Bharti Verma,VMWare,19.72
-2001012018,Jyoti Dhatarwal,Lowes,19.34
+1901012018,Bharti Verma,VMware,19.72
+2001012018,Jyoti Dhatarwal,Lowe's,19.34
 2101012018,Chhavi Khatri,Deloitte,7.6
-2201012018,Aditi Saxena,Expedia,35
+2201012018,Aditi Saxena,Expedia,35.05
 2301012018,Shalini Pal,AU Bank,8
 2401012018,Ananya Sonkar,Deutsche Bank,19.63
-2701012018,Muskan Sharma,GoldmanSachs,24
-2801012018,Aarushi Goyal,OYO,15
+2701012018,Muskan Sharma,Goldman Sachs,24
+2801012018,Aarushi Goyal,Oyo,15
 2901012018,Kashika Hingorani,NXP,17.28
 3001012018,Prachi Bhardwaj,Optum,11.59
-3101012018,Simar Vig,Expedia,35
+3101012018,Simar Vig,Expedia,35.05
 3201012018,Somya Gandhi,Adobe,55
 3401012018,Shilpa,Ericsson,6
 3501012018,Aashika Singh,PayU,16.5
 3701012018,Pranjal Mittal,Service Now,33.59
-3801012018,Jasleen Kaur,Citi Bank,18
+3801012018,Jasleen Kaur,Citibank,18
 3901012018,Khushboo Singh,Cisco,14.95
 4101012018,Aastha Singh,NXP,17.28
 4401012018,Anushree Misra,Walmart,22.62
-4501012018,Shubhangi Panda,Citi Bank,18
+4501012018,Shubhangi Panda,Citibank,18
 4601012018,Shivani Yadav,Cisco,14.95
 4801012018,Akarshi Arora,Deutsche Bank,19.63
 5001012018,Sakshi Patel,Microsoft,46
@@ -251,12 +251,12 @@ ROLL_NUMBER,STUDENT_NAME,COMPANY_PLACED,COMPENSATION_OFFERED
 5801012018,Muskan Gupta,Morgan Stanley,25.33
 6001012018,Mahima Choudhary,Deutsche Bank,19.63
 6101012018,Bharti Saini,Ericsson,6
-6201012018,Esha Gupta,Expedia,35
+6201012018,Esha Gupta,Expedia,35.05
 6301012018,Saumya Jain,Walmart,22.64
-6401012018,Satya Muskan,vmWare,19.75
-6601012018,Saimantika Basu,Expedia,35
+6401012018,Satya Muskan,VMware,19.75
+6601012018,Saimantika Basu,Expedia,35.05
 6701012018,Kritika Kumari,Disney+ Hotstar,32
-6801012018,Tanya Singh,Citi Bank,18
+6801012018,Tanya Singh,Citibank,18
 6901012018,Shivangi Malik,Western Digital,19.15
 7001012018,Saumya Saxena,Microsoft,46
 7101012018,Tanuka Majumder,Siemens,11

@@ -4,4 +4,7 @@ chromadb
 python-dotenv
 langchain-huggingface
 langchain-community
+langchain-ollama
+sqlparse
+pytest
 
