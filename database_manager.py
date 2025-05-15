@@ -13,13 +13,13 @@ logger = logging.getLogger(__name__)
 class DatabaseManager():
     def __init__(self, db_path):
         self.db_path=db_path
-        self.connection=sqlite3.connect(self.db_path)
-        self.cursor=self.connection.cursor()
         self.query=""
         self.query_result=""
         self.exception=""
 
     def execute_sql_query(self,sql_query:str,fetch: Union[str, int]="all")-> Any:
+        self.connection=sqlite3.connect(self.db_path)
+        self.cursor=self.connection.cursor()
         self.query=sql_query
         logger.info(f"Query generated:{sql_query}")
         try:

@@ -27,6 +27,26 @@ prompt="""
  Use these examples for reference. Here are the Examples:
    
 """
+query_router_prompt = """
+You are an intelligent query router for university placement statistics.
+    Classify the following user query into one of two categories:
+    1. "text-to-sql" → If the query is about placement statistics like student count, salary, company names, offers, higher studies etc.
+    2. "rag" → If the query is about general information such as about tnp, student achievements, about tnp committee members etc.
+    
+    NOTE : Respond with only one word: "text-to-sql" or "rag". Do not include any other text, other examples etc. Just output the correct label for the given query. 
+    Query: "{user_query}"
+    """
+rag_template = """
+You are a placement information bot for college Indira Gandhi Delhi Technical University for Women (IGDTUW).You will be required to answer user queries related to placement stats, student achievements, placement opportunities etc 
+Use following piece of context to answer the question. 
+If you don't know the answer, just say you don't know. 
+Keep the answer within 2 sentences and concise.
+
+Context: {context}
+Question: {question}
+Answer: 
+
+"""
 prompt2="""
 Question: {question}
 You are a MySQL expert. Given a question in English, create a syntactically correct MySQL query to execute.

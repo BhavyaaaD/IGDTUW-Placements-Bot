@@ -55,7 +55,7 @@ def relevant_examples_selector(examples,user_query):
 def get_query_response(question, template):
     #get access token from env
     hf_token=os.getenv("HF_TOKEN")
-    repo_id="mistralai/Mistral-7B-Instruct-v0.2"
+    repo_id="mistralai/Mistral-7B-Instruct-v0.3"
     
     #generate prompt
     # prompt = PromptTemplate.from_template(template)
@@ -108,7 +108,7 @@ def summarize_output(sql_query,sql_result,user_question):
     )
 
     hf_token=os.getenv("HF_TOKEN")
-    repo_id="mistralai/Mistral-7B-Instruct-v0.2"
+    repo_id="mistralai/Mistral-7B-Instruct-v0.3"
     #setup model
     llm=HuggingFaceEndpoint(repo_id=repo_id,
                             temperature=0.2,

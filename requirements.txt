@@ -1,5 +1,6 @@
 streamlit
 langchain
+matplotlib
 chromadb
 python-dotenv
 langchain-huggingface
@@ -7,4 +8,8 @@ langchain-community
 langchain-ollama
 sqlparse
 pytest
+pdfplumber
+pinecone
+fitz
+pymupdf
 

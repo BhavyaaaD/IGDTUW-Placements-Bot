@@ -2,6 +2,8 @@ from langchain_community.vectorstores import Chroma
 from langchain_core.example_selectors import SemanticSimilarityExampleSelector
 from langchain_huggingface.embeddings import HuggingFaceEndpointEmbeddings
 from langchain_core.prompts import ChatPromptTemplate,FewShotChatMessagePromptTemplate
+from langchain_community.embeddings import HuggingFaceEmbeddings
+
 
 def setup_vector_store(model: str, api_token: str) -> Chroma:
     """
@@ -14,10 +16,10 @@ def setup_vector_store(model: str, api_token: str) -> Chroma:
     Returns:
         Chroma: An instance of the Chroma vector store and embedding model.
     """
-    hf_embeddings = HuggingFaceEndpointEmbeddings(
-        model=model,
-        task="feature-extraction",
-        huggingfacehub_api_token=api_token,
+    hf_embeddings = HuggingFaceEmbeddings(
+        model_name=model,
+        # task="feature-extraction",
+        # huggingfacehub_api_token=api_token,
     )
 
     vector_store = Chroma()

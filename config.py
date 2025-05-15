@@ -7,7 +7,7 @@ config = {
     "api_token": os.getenv("HF_TOKEN"),
     "sql_generator_llm": {
         "huggingface": {
-            "model_name": "mistralai/Mistral-7B-Instruct-v0.2",
+            "model_name": "mistralai/Mistral-7B-Instruct-v0.3",
             "temperature": 0.4,
         },
         "ollama": {
@@ -15,7 +15,8 @@ config = {
         },
     },
     "vectorstore": {
-        "embedding_model": "mixedbread-ai/mxbai-embed-large-v1",
+        # "embedding_model": "mixedbread-ai/mxbai-embed-large-v1",
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
         "k": 4,
     },
     "database": {
@@ -24,4 +25,5 @@ config = {
     "logging": {
         "level": "INFO",
     },
+    "pinecone_api_key": os.getenv('PINECONE_API_KEY'),
 }
