@@ -1,5 +1,302 @@
 import csv
 import numpy as np
+import os
+import faiss
+import weaviate
+import numpy as np
+from typing import List, Dict
+from pathlib import Path
+from sentence_transformers import SentenceTransformer, util
+from pymilvus import connections, Collection
+from uuid import uuid4
+import requests
+
+# ------------------------------------
+# Configuration Constants
+# ------------------------------------
+EMBED_MODEL = "all-MiniLM-L6-v2"  # Sentence-BERT embedding model for vectorization
+OLLAMA_API_URL = "http://localhost:11434/api/chat"  # Local Ollama API endpoint for LLaMA
+
+# ------------------------------------
+# Embedding Manager
+# ------------------------------------
+class EmbeddingManager:
+    """
+    Manages text embedding using Sentence-BERT.
+    """
+
+    def __init__(self, model_name=EMBED_MODEL):
+        # Load Sentence-BERT model once during initialization
+        self.model = SentenceTransformer(model_name)
+
+    def embed_texts(self, texts: List[str]) -> np.ndarray:
+        """
+        Embed a list of texts into vectors.
+        
+        Args:
+            texts: List of strings to embed.
+        Returns:
+            numpy ndarray of embeddings.
+        """
+        return self.model.encode(texts, convert_to_numpy=True)
+
+    def embed_text(self, text: str) -> np.ndarray:
+        """
+        Embed a single text string.
+        
+        Args:
+            text: Single string to embed.
+        Returns:
+            numpy ndarray vector.
+        """
+        return self.embed_texts([text])[0]
+
+# ------------------------------------
+# Chunking Utility
+# ------------------------------------
+def chunk_text(text: str, chunk_size: int = 100, chunk_overlap: int = 20, metadata: Dict = None) -> List[Dict]:
+    """
+    Splits long text into overlapping chunks with unique IDs.
+    
+    Args:
+        text: Full text document to chunk.
+        chunk_size: Number of words per chunk.
+        chunk_overlap: Number of words to overlap between chunks.
+        metadata: Optional dict to attach to each chunk.
+        
+    Returns:
+        List of chunks, each a dict with 'id', 'text', and 'metadata'.
+    """
+    words = text.split()
+    chunks = []
+    start = 0
+    while start < len(words):
+        end = min(start + chunk_size, len(words))
+        chunk_words = words[start:end]
+        chunk_text = ' '.join(chunk_words)
+        chunks.append({
+            "id": str(uuid4()),  # Unique chunk ID
+            "text": chunk_text,
+            "metadata": metadata or {}
+        })
+        # Move start by chunk_size minus overlap to create overlapping chunks
+        start += chunk_size - chunk_overlap
+    return chunks
+
+# ------------------------------------
+# FAISS Retriever
+# ------------------------------------
+class FAISSRetriever:
+    """
+    Retriever that uses FAISS for dense vector similarity search.
+    """
+
+    def __init__(self, chunks: List[Dict], embed_manager: EmbeddingManager):
+        """
+        Initializes the FAISS index with chunk embeddings.
+        
+        Args:
+            chunks: List of chunk dicts with 'text'.
+            embed_manager: EmbeddingManager instance.
+        """
+        self.texts = [c["text"] for c in chunks]
+        self.ids = [c["id"] for c in chunks]
+        self.embeddings = embed_manager.embed_texts(self.texts)
+        self.index = faiss.IndexFlatL2(self.embeddings.shape[1])  # L2 distance index
+        self.index.add(self.embeddings)
+
+    def retrieve(self, query: str, embed_manager: EmbeddingManager, k: int = 5) -> List[str]:
+        """
+        Retrieves top-k chunks most similar to the query.
+        
+        Args:
+            query: Query string.
+            embed_manager: EmbeddingManager instance.
+            k: Number of chunks to retrieve.
+        
+        Returns:
+            List of chunk texts.
+        """
+        query_vec = embed_manager.embed_text(query).reshape(1, -1)
+        _, indices = self.index.search(query_vec, k)
+        return [self.texts[i] for i in indices[0]]
+
+# ------------------------------------
+# Weaviate Retriever
+# ------------------------------------
+class WeaviateRetriever:
+    """
+    Retriever that queries Weaviate vector database using semantic search.
+    """
+
+    def __init__(self):
+        """
+        Initializes Weaviate client; assumes local Weaviate running on default port.
+        """
+        self.client = weaviate.Client("http://localhost:8080")
+
+    def retrieve(self, query: str, k: int = 5) -> List[str]:
+        """
+        Retrieves top-k semantically relevant chunks from Weaviate.
+        
+        Args:
+            query: Query string.
+            k: Number of chunks to retrieve.
+        
+        Returns:
+            List of chunk texts.
+        """
+        result = (
+            self.client.query.get("Chunk", ["text"])
+            .with_near_text({"concepts": [query]})
+            .with_limit(k)
+            .do()
+        )
+        return [item["text"] for item in result["data"]["Get"]["Chunk"]]
+
+# ------------------------------------
+# Milvus Retriever
+# ------------------------------------
+class MilvusRetriever:
+    """
+    Retriever that queries Milvus vector database using vector similarity search.
+    """
+
+    def __init__(self, collection_name="rag_chunks"):
+        """
+        Connects to Milvus and loads the specified collection.
+        
+        Args:
+            collection_name: Name of Milvus collection holding chunk embeddings.
+        """
+        connections.connect("default", host="localhost", port="19530")
+        self.collection = Collection(name=collection_name)
+
+    def retrieve(self, query: str, embed_manager: EmbeddingManager, k: int = 5) -> List[str]:
+        """
+        Retrieves top-k semantically relevant chunks from Milvus.
+        
+        Args:
+            query: Query string.
+            embed_manager: EmbeddingManager instance.
+            k: Number of chunks to retrieve.
+        
+        Returns:
+            List of chunk texts.
+        """
+        query_vec = embed_manager.embed_text(query).tolist()
+        self.collection.load()
+        result = self.collection.search(
+            data=[query_vec],
+            anns_field="embedding",
+            param={"metric_type": "IP", "params": {"nprobe": 10}},
+            limit=k,
+            output_fields=["text"]
+        )
+        return [hit.entity.get("text") for hit in result[0]]
+
+# ------------------------------------
+# LLM Generator (LLaMA 3.1 via Ollama)
+# ------------------------------------
+def generate_answer(prompt: str, model: str = "llama3") -> str:
+    """
+    Sends prompt to Ollama's LLaMA 3.1 model and returns generated answer.
+    
+    Args:
+        prompt: Full prompt with context and question.
+        model: Ollama model name (default 'llama3').
+        
+    Returns:
+        Generated answer string or error message.
+    """
+    try:
+        response = requests.post(
+            OLLAMA_API_URL,
+            headers={"Content-Type": "application/json"},
+            json={
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt}
+                ]
+            },
+            timeout=30
+        )
+        response.raise_for_status()
+        content = response.json()
+        return content.get("message", {}).get("content", "[No content returned by model]")
+    except requests.exceptions.RequestException as e:
+        return f"[Error contacting Ollama server: {str(e)}]"
+    except Exception as e:
+        return f"[Unexpected error: {str(e)}]"
+
+# ------------------------------------
+# RAG Pipeline
+# ------------------------------------
+def run_rag_pipeline(query: str, retriever, embed_manager: EmbeddingManager, llm_model: str = "llama3") -> str:
+    """
+    Runs the full RAG pipeline: retrieve context chunks + generate answer.
+    
+    Args:
+        query: User's natural language query.
+        retriever: Retriever instance (FAISS, Weaviate, or Milvus).
+        embed_manager: EmbeddingManager instance.
+        llm_model: Ollama model name to use.
+        
+    Returns:
+        Generated answer string.
+    """
+    # Retrieve relevant chunks from retriever
+    chunks = retriever.retrieve(query, embed_manager, k=5)
+    # Combine chunks into context prompt
+    context = "\n\n".join(chunks)
+    prompt = f"""Use the following context to answer the question.
+
+Context:
+{context}
+
+Question:
+{query}"""
+    # Generate answer from LLM
+    return generate_answer(prompt, model=llm_model)
+
+# ------------------------------------
+# Evaluation Metrics for Retriever
+# ------------------------------------
+def precision_at_k(retrieved: List[str], relevant: List[str], k: int) -> float:
+    """
+    Precision@k: fraction of top-k retrieved chunks that are relevant.
+    """
+    return len(set(retrieved[:k]) & set(relevant)) / k
+
+def recall_at_k(retrieved: List[str], relevant: List[str], k: int) -> float:
+    """
+    Recall@k: fraction of relevant chunks retrieved in top-k.
+    """
+    return len(set(retrieved[:k]) & set(relevant)) / len(relevant) if relevant else 0.0
+
+def mrr(retrieved: List[str], relevant: List[str]) -> float:
+    """
+    Mean Reciprocal Rank: inverse rank of first relevant chunk retrieved.
+    """
+    for i, doc in enumerate(retrieved):
+        if doc in relevant:
+            return 1 / (i + 1)
+    return 0.0
+
+def ndcg_at_k(retrieved: List[str], relevant: List[str], k: int) -> float:
+    """
+    Normalized Discounted Cumulative Gain at k:
+    Measures ranking quality giving higher weight to early relevant chunks.
+    """
+    def dcg(scores):
+        return sum((2 ** s - 1) / np.log2(i + 2) for i, s in enumerate(scores))
+
+    relevance = [1 if doc in relevant else 0 for doc in retrieved[:k]]
+    ideal = sorted(relevance, reverse=True)
+    dcg_val = dcg(relevance)
+    idcg_val = dcg(ideal)
+    return dcg_val / idcg_val if idcg_val != 0 else 0.0
 
 def precision_at_k(retrieved_docs, relevant_docs, k):
     """
